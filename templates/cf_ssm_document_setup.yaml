@@ -38,10 +38,6 @@ Resources:
                 - |
                     #!/bin/bash
                     cd /home/ec2-user
-                    wget https://github.com/broadinstitute/gatk-sv/archive/refs/tags/v<UPDATE_LATER>.zip
-                    unzip v<UPDATE_LATER>.zip
-                    cd v<UPDATE_LATER>
-                    
-                    git clone https://github.com/spatel-gfb/gatk-sv.git
-                    chmod 777 -R gatk-sv
-                    sh gatk-sv/scripts/aws/aws_setup_script.sh {{S3OrFSXPath}}
+                    git clone https://github.com/goldfinchbio/aws-gatk-sv.git
+                    chmod 777 -R aws-gatk-sv
+                    sh aws-gatk-sv/scripts/aws_setup_script.sh {{S3OrFSXPath}}

@@ -27,6 +27,7 @@ cd /home/ec2-user
 wget https://github.com/broadinstitute/gatk-sv/archive/refs/tags/v<UPDATE_LATER>.zip
 unzip v<UPDATE_LATER>.zip
 mv gatk-sv-<UPDATE_LATER> gatk-sv
+chmod 777 -R gatk-sv
 
 # Create the required code and reference files.
 cd gatk-sv
@@ -54,8 +55,9 @@ zip dep.zip *.wdl
 
 # Update and Copy the aws config file.
 cd ../
-wget <UPDATE_PATH> -O aws_GATKSVPipelineBatch.json
-wget <UPDATE_PATH> -O opts.json
+wget https://github.com/goldfinchbio/aws-gatk-sv/blob/master/configs/aws_GATKSVPipelineBatch.json\?raw\=true -O aws_GATKSVPipelineBatch.json
+wget https://github.com/goldfinchbio/aws-gatk-sv/blob/master/configs/opts.json\?raw\=true -O opts.json
+chmod 755 aws_GATKSVPipelineBatch.json opts.json
 # Update the aws_GATKSVPipelineBatch.ref_panel_1kg.json json with the correct values as per variables defined
 array=( BROAD_REF_PATH CRAM_BAM_FILE_PATH HAPLOTYPE_GVCF_PATH GATK_SV_RESOURCES_PATH BATCH_DEF_PATH AWS_ACCOUNT_ID AWS_REGION ECR_REPO_NAME )
 for i_var in "${array[@]}"
@@ -67,7 +69,7 @@ done
 
 
 # Upload the images to ECR
-wget <UPDATE_PATH> -O upload_images_ecr.sh
+wget https://github.com/goldfinchbio/aws-gatk-sv/blob/master/scripts/upload_images_ecr.sh\?raw\=true -O upload_images_ecr.sh
 chmod 755 upload_images_ecr.sh
 sh upload_images_ecr.sh -r ${AWS_REGION} -e ${ECR_REPO_NAME}
 

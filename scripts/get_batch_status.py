@@ -137,7 +137,6 @@ def get_job_details(job_id_list):
                 'job_id': job_id,
                 'job_name': response['jobs'][0]['jobName'],
                 'job_status': job_status,
-                'started_at': response['jobs'][0]['startedAt'],
                 'started_at': response['jobs'][0]['startedAt'] if 'startedAt' in response['jobs'][0] else None,
                 'stopped_at': response['jobs'][0]['stoppedAt'] if 'stoppedAt' in response['jobs'][0] else None,
                 "image": response['jobs'][0]['container']['image'],

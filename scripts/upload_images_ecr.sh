@@ -60,22 +60,22 @@ check_status_of_command $? "Downloading https://github.com/broadinstitute/gatk-s
 
 
 #Get Account ID and login to ECR
-aws configure set region ${AWS_REGION}
+aws configure set region "${AWS_REGION}"
 export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --output text --query 'Account')
-aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+aws ecr get-login-password --region "${AWS_REGION}" | docker login --username AWS --password-stdin "${AWS_ACCOUNT_ID}".dkr.ecr."${AWS_REGION}".amazonaws.com
 check_status_of_command $? "ECR Login for Account : ${AWS_ACCOUNT_ID}"
 
 # Create ECR repo if not exists
-aws ecr create-repository --repository-name ${ECR_REPO_NAME} || true
+aws ecr create-repository --repository-name "${ECR_REPO_NAME}" || true
 
 # Pull Image from GCR/Docker Hub and Push Image to ECR
 pull_and_push_image()
 {
-    docker pull $1
+    docker pull "$1"
     check_status_of_command $? "Docker Pull : ${1}"
-    docker image tag $1 ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${2}
+    docker image tag "$1" "${AWS_ACCOUNT_ID}".dkr.ecr."${AWS_REGION}".amazonaws.com/"${ECR_REPO_NAME}":"${2}"
     check_status_of_command $? "Docker tagging : ${1}"
-    docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${2}
+    docker push "${AWS_ACCOUNT_ID}".dkr.ecr."${AWS_REGION}".amazonaws.com/"${ECR_REPO_NAME}":"${2}"
     check_status_of_command $? "Docker Push : ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${2}"
 }
 
@@ -88,7 +88,7 @@ do
         gcr_image=`echo $line | cut -d '"' -f4`
         echo "The GCR Image : $gcr_image"
         echo "ECR Image Tag : $ecr_image_tag"
-        pull_and_push_image $gcr_image $ecr_image_tag
+        pull_and_push_image "$gcr_image" "$ecr_image_tag"
     fi
 done < docker.json
 

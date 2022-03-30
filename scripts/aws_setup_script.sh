@@ -15,8 +15,8 @@ sudo amazon-linux-extras install -y docker
 sudo usermod -a -G docker ec2-user
 sudo service docker start
 sudo chkconfig docker on
-sudo curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+sudo curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-"$(uname -s)"-"$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-"$(uname -s)"-"$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose version
 sudo chmod 777 /var/run/docker.sock
@@ -36,8 +36,8 @@ python3 -m pip install jinja2
 BASE_DIR=$(pwd)
 GATK_SV_ROOT=$(pwd)
 CLOUD_ENV="aws.gatk_sv"
-echo '{ "google_project_id": "broad-dsde-methods", "terra_billing_project_id": "broad-dsde-methods" }' > inputs/values/${CLOUD_ENV}.json
-python3 scripts/inputs/build_inputs.py ${BASE_DIR}/inputs/values ${BASE_DIR}/inputs/templates/test ${BASE_DIR}/inputs/build/ref_panel_1kg/test  -a '{ "test_batch" : "ref_panel_1kg", "cloud_env" : "'$CLOUD_ENV'" }'
+echo '{ "google_project_id": "broad-dsde-methods", "terra_billing_project_id": "broad-dsde-methods" }' > inputs/values/"${CLOUD_ENV}".json
+python3 scripts/inputs/build_inputs.py "${BASE_DIR}"/inputs/values "${BASE_DIR}"/inputs/templates/test "${BASE_DIR}"/inputs/build/ref_panel_1kg/test  -a '{ "test_batch" : "ref_panel_1kg", "cloud_env" : "'$CLOUD_ENV'" }'
 cp inputs/build/ref_panel_1kg/test/GATKSVPipelineBatch/GATKSVPipelineBatch.json
 cp inputs/build/ref_panel_1kg/test/GATKSVPipelineBatch/GATKSVPipelineBatch.json gatk_run/
 
@@ -71,7 +71,7 @@ done
 # Upload the images to ECR
 wget https://github.com/goldfinchbio/aws-gatk-sv/blob/master/scripts/upload_images_ecr.sh\?raw\=true -O upload_images_ecr.sh
 chmod 755 upload_images_ecr.sh
-sh upload_images_ecr.sh -r ${AWS_REGION} -e ${ECR_REPO_NAME}
+sh upload_images_ecr.sh -r "${AWS_REGION}" -e "${ECR_REPO_NAME}"
 
 
 echo "IMPORTANT : Kindly compare the below :

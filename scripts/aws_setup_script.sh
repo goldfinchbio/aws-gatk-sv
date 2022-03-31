@@ -27,7 +27,7 @@ cd /home/ec2-user
 wget https://github.com/broadinstitute/gatk-sv/archive/refs/tags/v<UPDATE_LATER>.zip
 unzip v<UPDATE_LATER>.zip
 mv gatk-sv-<UPDATE_LATER> gatk-sv
-chmod 777 -R gatk-sv
+chmod 755 -R gatk-sv
 
 # Create the required code and reference files.
 cd gatk-sv

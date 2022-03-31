@@ -19,7 +19,7 @@ sudo curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-c
 sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-"$(uname -s)"-"$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose version
-sudo chmod 777 /var/run/docker.sock
+sudo chmod 755 /var/run/docker.sock
 
 # Download the gatk-sv github repo
 # This will be hard-coded to a particular release/tag if Broad is unable to maintain it.

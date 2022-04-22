@@ -22,11 +22,17 @@ docker-compose version
 sudo chmod 755 /var/run/docker.sock
 
 # Download the gatk-sv github repo
-# This will be hard-coded to a particular release/tag if Broad is unable to maintain it.
+# The working AWS FSx code is uploaded in the report mentioned due to on-going PR with Broad.
 cd /home/ec2-user
-wget https://github.com/broadinstitute/gatk-sv/archive/refs/tags/v<UPDATE_LATER>.zip
-unzip v<UPDATE_LATER>.zip
-mv gatk-sv-<UPDATE_LATER> gatk-sv
+git init
+git remote add origin -f https://github.com/goldfinchbio/aws-gatk-sv.git
+echo "gatk-sv" > .git/info/sparse-checkout
+git pull origin master
+# This will be hard-coded to a particular release/tag if Broad is unable to maintain it.
+# Uncomment below once tagged version from Broad is created and specify the Version.
+# wget https://github.com/broadinstitute/gatk-sv/archive/refs/tags/v<UPDATE_LATER>.zip
+# unzip v<UPDATE_LATER>.zip
+# mv gatk-sv-<UPDATE_LATER> gatk-sv
 chmod 755 -R gatk-sv
 
 # Create the required code and reference files.

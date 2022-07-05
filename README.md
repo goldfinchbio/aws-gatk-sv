@@ -1,3 +1,6 @@
+## Note
+  This repo is no longer maintained by Goldfinch Bio. Please use https://github.com/LokaHQ/aws-gatk-sv instead.
+
 # AWS Setup & Execution
   This document provides all the relevant steps needed for execution of this pipeline on AWS Infrastructure.
   For this the pre-requisites are as below:
